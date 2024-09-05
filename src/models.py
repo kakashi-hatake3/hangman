@@ -1,7 +1,7 @@
 import random
 from abc import ABC, abstractmethod
 
-from src.utils import clear_screen
+from utils import clear_screen
 
 
 class Word:
@@ -59,8 +59,8 @@ class Menu:
     LIST_OF_LEVELS = []
 
     def __init__(self):
-        self.users_category: str = random.choice(self.LIST_OF_CATEGORIES)
-        self.users_level: str = random.choice(self.LIST_OF_LEVELS)
+        self.users_category: str
+        self.users_level: str
 
     def start_game(self):
         pass
@@ -128,4 +128,7 @@ class Menu:
         self.add_level('животные')
         self.add_level('компьютер')
         self.add_level('транспорт')
+
+        self.users_category = random.choice(self.LIST_OF_CATEGORIES)
+        self.users_level = random.choice(self.LIST_OF_LEVELS)
 
