@@ -52,11 +52,17 @@ class Session:
 
 
 class Menu:
-    options: list = ['Начать игру', 'Выбрать категорию', 'Выбрать сложность', 'Добавить слово', 'Удалить слово']
+    options: list = ['Начать игру',
+                     'Выбрать категорию',
+                     'Выбрать сложность',
+                     'Добавить слово',
+                     'Удалить слово',
+                     'Выйти']
     selected_index: int = 0
     LIST_OF_WORDS = []
     LIST_OF_CATEGORIES = []
     LIST_OF_LEVELS = []
+    exit = False
 
     def __init__(self):
         self.users_category: str
@@ -76,6 +82,9 @@ class Menu:
 
     def delete_word(self):
         pass
+
+    def exit_menu(self):
+        self.exit = True
 
     def print_menu(self):
         clear_screen()
@@ -131,4 +140,3 @@ class Menu:
 
         self.users_category = random.choice(self.LIST_OF_CATEGORIES)
         self.users_level = random.choice(self.LIST_OF_LEVELS)
-
