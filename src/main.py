@@ -2,7 +2,7 @@ import logging
 import platform
 from time import sleep
 
-from models import MainMenu
+from models import MainMenu, DeleteMenu
 import keyboard
 
 from models import CategoryMenu, LevelMenu
@@ -21,7 +21,7 @@ def main() -> None:
     while not menu.exit:
         menu.print_menu()
         key = keyboard.read_key()
-        if menu.handle_key(key) == 'enter':
+        if menu.handle_key(key) == 'enter' and menu.exit is False:
             if menu.options[menu.selected_index] == 'Начать игру':
                 menu.start_game()
                 """
@@ -53,8 +53,8 @@ def main() -> None:
                 while not level_menu.exit:
                     sleep(0.15)
                     level_menu.print_menu()
-                    category_key = keyboard.read_key()
-                    if level_menu.handle_key(category_key) == 'enter':
+                    level_key = keyboard.read_key()
+                    if level_menu.handle_key(level_key) == 'enter':
                         """
                         выбираем уровень
                         """
@@ -64,13 +64,27 @@ def main() -> None:
 
             elif menu.options[menu.selected_index] == 'Добавить слово':
                 """
-                Добавляем слово               
+                добавляем слово               
                 """
 
                 menu.add_word()
 
             elif menu.options[menu.selected_index] == 'Удалить слово':
-                menu.delete_word()
+                delete_menu = DeleteMenu()
+                delete_menu.get_list_from_main_menu(menu)
+                if 'Выйти' not in delete_menu.options:
+                    delete_menu.options.append('Выйти')
+                while not delete_menu.exit:
+                    sleep(0.15)
+                    delete_menu.print_menu()
+                    delete_key = keyboard.read_key()
+                    if delete_menu.handle_key(delete_key) == 'enter':
+                        """
+                        выбираем слово для удаления
+                        """
+                        menu.delete_word(delete_menu.options[delete_menu.selected_index])
+                        delete_menu.exit_menu()
+                    sleep(0.15)
 
             elif menu.options[menu.selected_index] == 'Выйти':
                 menu.exit_menu()
