@@ -69,6 +69,17 @@ class Menu:
             else:
                 print(f"  {option}")
 
+    def handle_key(self, key):
+        if key == 'enter':
+            return 'enter'
+        elif key == 'up':  # Up arrow
+            self.selected_index = (self.selected_index - 1) % len(self.options)
+        elif key == 'down':  # Down arrow
+            self.selected_index = (self.selected_index + 1) % len(self.options)
+        elif key == 'esc':
+            self.exit = True
+        return None
+
 
 class MainMenu(Menu):
     options: list = ['Начать игру',
