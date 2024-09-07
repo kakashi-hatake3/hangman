@@ -310,12 +310,15 @@ class MainMenu(Menu):
 
     def start_game(self):
         self.random_fields()
-        filtered_words = [word
-                          for word in self.LIST_OF_WORDS
-                          if word.get_category() == self.users_category and
-                          word.get_level() == self.users_level]
+        filtered_words = self.filter_words()
         result_word = random.choice(filtered_words)
         return result_word, self.users_count
+
+    def filter_words(self):
+        return [word
+                for word in self.LIST_OF_WORDS
+                if word.get_category() == self.users_category and
+                word.get_level() == self.users_level]
 
     def choice_category(self, new_category):
         self.users_category = new_category
@@ -379,12 +382,16 @@ class MainMenu(Menu):
 
     def random_fields(self):
         self.refresh_lists()
-        if not self.choice_category_flag:
-            self.users_category = random.choice(self.LIST_OF_CATEGORIES)
-        if not self.choice_level_flag:
-            self.users_level = random.choice(self.LIST_OF_LEVELS)
-        if not self.choice_count_flag:
-            self.users_count = random.randint(6, 10)
+        while True:
+            if not self.choice_category_flag:
+                self.users_category = random.choice(self.LIST_OF_CATEGORIES)
+            if not self.choice_level_flag:
+                self.users_level = random.choice(self.LIST_OF_LEVELS)
+            if not self.choice_count_flag:
+                self.users_count = random.randint(6, 10)
+            if len(self.filter_words()) > 0:
+                break
+
 
     def reset_fields(self):
         self.choice_category_flag = False
@@ -395,7 +402,9 @@ class MainMenu(Menu):
 class CategoryMenu(Menu):
     options: list
     def get_list_from_main_menu(self, main_menu: MainMenu):
-        self.options = main_menu.LIST_OF_CATEGORIES
+        self.options = [word.get_category()
+                        for word in main_menu.LIST_OF_WORDS
+                        if word.get_level() == main_menu.users_level]
 
 
 class LevelMenu(Menu):
