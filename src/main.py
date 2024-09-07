@@ -56,7 +56,8 @@ def main() -> None:
                         """
                         выбираем категорию
                         """
-                        menu.choice_category(category_menu.options[category_menu.selected_index])
+                        if category_menu.options[category_menu.selected_index] != 'Выйти':
+                            menu.choice_category(category_menu.options[category_menu.selected_index])
                         category_menu.exit_menu()
                     sleep(0.15)
 
@@ -73,7 +74,8 @@ def main() -> None:
                         """
                         выбираем уровень
                         """
-                        menu.choice_level(level_menu.options[level_menu.selected_index])
+                        if level_menu.options[level_menu.selected_index] != 'Выйти':
+                            menu.choice_level(level_menu.options[level_menu.selected_index])
                         level_menu.exit_menu()
                     sleep(0.15)
 

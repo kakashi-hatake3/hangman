@@ -289,7 +289,7 @@ class Menu:
 
 class MainMenu(Menu):
     options: list = ['Начать игру',
-                     'Зарандомить'
+                     'Зарандомить',
                      'Выбрать категорию',
                      'Выбрать сложность',
                      'Выбрать количество попыток',
@@ -327,6 +327,9 @@ class MainMenu(Menu):
 
     def choice_level(self, new_level):
         self.users_level = new_level
+        if len(self.filter_words()) == 0:
+            self.choice_category_flag = False
+            self.random_fields()
         self.choice_level_flag = True
 
     def choice_count_of_tries(self, new_count):
@@ -383,15 +386,15 @@ class MainMenu(Menu):
 
     def random_fields(self):
         self.refresh_lists()
-        while True:
-            if not self.choice_category_flag:
-                self.users_category = random.choice(self.LIST_OF_CATEGORIES)
-            if not self.choice_level_flag:
-                self.users_level = random.choice(self.LIST_OF_LEVELS)
-            if not self.choice_count_flag:
-                self.users_count = random.randint(6, 10)
-            if len(self.filter_words()) > 0:
-                break
+        if not self.choice_level_flag:
+            self.users_level = random.choice(self.LIST_OF_LEVELS)
+        if not self.choice_category_flag:
+            self.users_category = random.choice([word.get_category()
+                                                 for word in self.LIST_OF_WORDS
+                                                 if word.get_level() == self.users_level])
+        if not self.choice_count_flag:
+            self.users_count = random.randint(6, 10)
+
 
 
     def reset_fields(self):
