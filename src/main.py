@@ -36,6 +36,13 @@ def main() -> None:
                 Реализовать внутренности(можно создавать объект сессии, туда закинуть все данные и продумать отрисовку)
                 """
 
+            elif menu.options[menu.selected_index] == 'Зарандомить':
+                """
+                выбирает случайные сложность, категорию и количесвто попыток
+                """
+                menu.reset_fields()
+                menu.random_fields()
+
             elif menu.options[menu.selected_index] == 'Выбрать категорию':
                 category_menu = CategoryMenu()
                 category_menu.get_list_from_main_menu(menu)
