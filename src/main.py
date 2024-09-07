@@ -29,7 +29,9 @@ def main() -> None:
                     result_word,
                     count_of_tries
                 )
+                menu.random_fields()
                 game_session.show()
+                menu.reset_fields()
                 """
                 Реализовать внутренности(можно создавать объект сессии, туда закинуть все данные и продумать отрисовку)
                 """
