@@ -111,7 +111,12 @@ class MainMenu(Menu):
         self.filename = filename
 
     def start_game(self):
-        pass
+        filtered_words = [word
+                          for word in self.LIST_OF_WORDS
+                          if word.get_category() == self.users_category and
+                          word.get_level() == self.users_level]
+        result_word = random.choice(filtered_words)
+        return result_word, self.users_count
 
     def choice_category(self, new_category):
         self.users_category = new_category
