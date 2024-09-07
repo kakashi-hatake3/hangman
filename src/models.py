@@ -52,11 +52,11 @@ class Word:
 
 
 class GameSession:
-    def __init__(self):
-        self.word: Word
+    def __init__(self, result_word, result_count):
+        self.word: Word = result_word
         self.users_answer: str
-        self.count_of_tries: int
-        self.users_count: int
+        self.count_of_tries: int = result_count
+        self.users_count: int = self.count_of_tries
         self.alphabet: str
 
     def show(self):

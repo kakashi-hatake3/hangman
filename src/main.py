@@ -5,7 +5,7 @@ from time import sleep
 from models import MainMenu, DeleteMenu
 import keyboard
 
-from models import CategoryMenu, LevelMenu
+from models import CategoryMenu, LevelMenu, GameSession
 from utils import clear_screen
 
 logging.basicConfig()
@@ -24,7 +24,12 @@ def main() -> None:
         key = keyboard.read_key()
         if menu.handle_key(key) == 'enter' and menu.exit is False:
             if menu.options[menu.selected_index] == 'Начать игру':
-                menu.start_game()
+                result_word, count_of_tries = menu.start_game()
+                game_session = GameSession(
+                    result_word,
+                    count_of_tries
+                )
+                game_session.show()
                 """
                 Реализовать внутренности(можно создавать объект сессии, туда закинуть все данные и продумать отрисовку)
                 """
