@@ -6,6 +6,7 @@ from models import MainMenu, DeleteMenu
 import keyboard
 
 from models import CategoryMenu, LevelMenu
+from utils import clear_screen
 
 logging.basicConfig()
 logging.getLogger().setLevel(logging.INFO)
@@ -61,6 +62,23 @@ def main() -> None:
                         menu.choice_level(level_menu.options[level_menu.selected_index])
                         level_menu.exit_menu()
                     sleep(0.15)
+
+            elif menu.options[menu.selected_index] == 'Выбрать количество попыток':
+                clear_screen()
+                print('Введите число попыток от 6 до 10, чтобы вернуться нажмите "enter+esc"\n')
+                sleep(0.15)
+                while True:
+                    try:
+                        new_count = int(input())
+                        if 6 <= new_count <= 10:
+                            menu.choice_count_of_tries(new_count)
+                            break
+                        else:
+                            print('Число должно быть от 6 до 10!\n')
+                    except ValueError:
+                        print('Вводите число!\n')
+                        if keyboard.is_pressed('esc'):
+                            break
 
             elif menu.options[menu.selected_index] == 'Добавить слово':
                 """
