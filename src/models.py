@@ -51,12 +51,16 @@ class Word:
         return self.__length
 
 
-class Session:
+class GameSession:
     def __init__(self):
-        self.answer: Word
+        self.word: Word
         self.users_answer: str
-        self.max_count: int
+        self.count_of_tries: int
         self.users_count: int
+        self.alphabet: str
+
+    def show(self):
+        clear_screen()
 
 
 class Menu:
@@ -92,6 +96,7 @@ class MainMenu(Menu):
     options: list = ['Начать игру',
                      'Выбрать категорию',
                      'Выбрать сложность',
+                     'Выбрать количество попыток',
                      'Добавить слово',
                      'Удалить слово',
                      'Выйти']
@@ -102,6 +107,7 @@ class MainMenu(Menu):
     def __init__(self, filename: str = 'word_list.json'):
         self.users_category: str
         self.users_level: str
+        self.users_count: int
         self.filename = filename
 
     def start_game(self):
@@ -112,6 +118,9 @@ class MainMenu(Menu):
 
     def choice_level(self, new_level):
         self.users_level = new_level
+
+    def choice_count_of_tries(self, new_count):
+        self.users_count = new_count
 
     def add_word(self):
         clear_screen()
@@ -165,6 +174,7 @@ class MainMenu(Menu):
         self.refresh_lists()
         self.users_category = random.choice(self.LIST_OF_CATEGORIES)
         self.users_level = random.choice(self.LIST_OF_LEVELS)
+        self.users_count = random.randint(6, 10)
 
 
 class CategoryMenu(Menu):
