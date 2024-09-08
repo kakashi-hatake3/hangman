@@ -400,8 +400,17 @@ class MainMenu(Menu):
         """
         self.random_fields()
         filtered_words = self.filter_words()
-        result_word = random.choice(filtered_words)
-        return result_word, self.users_count
+        result_word = ''
+        try:
+            result_word = random.choice(filtered_words)
+        except IndexError:
+            self.exit_menu()
+            # print('json файл пуст')
+        try:
+            return result_word, self.users_count
+        except AttributeError:
+            self.exit_menu()
+            # print('json файл пуст')
 
     def filter_words(self):
         """
@@ -453,7 +462,7 @@ class MainMenu(Menu):
         while True:
             args = input().split(', ')
             if len(args) == 4 and args[0] not in [word.get_value() for word in self.LIST_OF_WORDS]:
-                self.create_and_add_word(args[0], args[1], args[2], args[3])
+                self.create_and_add_word(args[0].lower(), args[1].lower(), args[2].lower(), args[3].lower())
                 break
             else:
                 print('Вы где-то допустили ошибку!\n')
@@ -491,16 +500,24 @@ class MainMenu(Menu):
             json.dump([word.to_dict() for word in self.LIST_OF_WORDS], f, ensure_ascii=False, indent=4)
         self.refresh_lists()
 
-    def load_words(self):
+    def load_words(self) -> None:
         """
-        Функция подгружает слова из json файла в LIST_OF_WORDS, в случае неудачи возвращает сообщение об ошибке
-        :return: в случае неудачи сообщение об ошибке
+        Функция подгружает слова из json файла в LIST_OF_WORDS,
+         в случае неудачи печатает сообщение об ошибке и завершает работу меню
+        :return:
         """
         try:
             with open(self.filename, 'r', encoding='utf-8') as f:
                 self.LIST_OF_WORDS = [Word.from_dict(data) for data in json.load(f)]
         except FileNotFoundError:
-            return 'File not found'
+            self.exit_menu()
+            print('Файл не найден')
+        except KeyError:
+            self.exit_menu()
+            print('В json файле некорректные данные')
+        except json.decoder.JSONDecodeError:
+            self.exit_menu()
+            print('json файл некорректен')
 
     def refresh_lists(self) -> None:
         """
@@ -516,14 +533,18 @@ class MainMenu(Menu):
         :return: None
         """
         self.refresh_lists()
-        if not self.choice_level_flag:
-            self.users_level = random.choice(self.LIST_OF_LEVELS)
-        if not self.choice_category_flag:
-            self.users_category = random.choice([word.get_category()
-                                                 for word in self.LIST_OF_WORDS
-                                                 if word.get_level() == self.users_level])
-        if not self.choice_count_flag:
-            self.users_count = random.randint(6, 10)
+        try:
+            if not self.choice_level_flag:
+                self.users_level = random.choice(self.LIST_OF_LEVELS)
+            if not self.choice_category_flag:
+                self.users_category = random.choice([word.get_category()
+                                                     for word in self.LIST_OF_WORDS
+                                                     if word.get_level() == self.users_level])
+            if not self.choice_count_flag:
+                self.users_count = random.randint(6, 10)
+        except IndexError:
+            self.exit_menu()
+            print('В json файле недостаточно слов')
 
     def reset_fields(self) -> None:
         """

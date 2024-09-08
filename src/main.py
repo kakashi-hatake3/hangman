@@ -30,7 +30,11 @@ def main() -> None:
                 """
                 Начало игры, создаем объект игровой сессии, заполняем поля и после игры чистим их
                 """
-                result_word, count_of_tries = menu.start_game()
+                try:
+                    result_word, count_of_tries = menu.start_game()
+                except TypeError:
+                    # print('json файл пуст')
+                    break
                 game_session = GameSession(
                     result_word,
                     count_of_tries
