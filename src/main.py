@@ -34,6 +34,9 @@ def main() -> None:
                     result_word, count_of_tries = menu.start_game()
                 except TypeError:
                     break
+                if menu.exit:
+                    print('Недостаточно слов для игры')
+                    break
                 game_session = GameSession(
                     result_word,
                     count_of_tries
