@@ -33,13 +33,11 @@ def main() -> None:
                 try:
                     result_word, count_of_tries = menu.start_game()
                 except TypeError:
-                    # print('json файл пуст')
                     break
                 game_session = GameSession(
                     result_word,
                     count_of_tries
                 )
-                menu.random_fields()
                 game_session.show()
                 menu.reset_fields()
 

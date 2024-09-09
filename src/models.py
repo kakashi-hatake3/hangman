@@ -335,7 +335,7 @@ class Menu:
         :return: None
         """
         clear_screen()
-        print("Выберите опцию:")
+        print("Для выхода нажмите на esc. Выберите опцию:")
         for i, option in enumerate(self.options):
             if i == self.selected_index:
                 print(f"> {option}")
@@ -398,19 +398,16 @@ class MainMenu(Menu):
         Рандомит слово перед игрой
         :return: итоговое слово для игры и количество попыток
         """
-        self.random_fields()
         filtered_words = self.filter_words()
         result_word = ''
         try:
             result_word = random.choice(filtered_words)
         except IndexError:
             self.exit_menu()
-            # print('json файл пуст')
         try:
             return result_word, self.users_count
         except AttributeError:
             self.exit_menu()
-            # print('json файл пуст')
 
     def filter_words(self):
         """
@@ -462,7 +459,12 @@ class MainMenu(Menu):
         while True:
             args = input().split(', ')
             if len(args) == 4 and args[0] not in [word.get_value() for word in self.LIST_OF_WORDS]:
-                self.create_and_add_word(args[0].lower(), args[1].lower(), args[2].lower(), args[3].lower())
+                self.create_and_add_word(
+                    args[0].lower().replace(' ', '_'),
+                    args[1].lower(),
+                    args[2].lower(),
+                    args[3].lower()
+                )
                 break
             else:
                 print('Вы где-то допустили ошибку!\n')
