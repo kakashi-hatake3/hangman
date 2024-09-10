@@ -458,7 +458,8 @@ class MainMenu(Menu):
         sleep(0.15)
         while True:
             args = input().split(', ')
-            if len(args) == 4 and args[0] not in [word.get_value() for word in self.LIST_OF_WORDS]:
+            if len(args) == 4 and args[0] not in [word.get_value() for word in self.LIST_OF_WORDS] and len(
+                    args[0]) < 20:
                 self.create_and_add_word(
                     args[0].lower().replace(' ', '_'),
                     args[1].lower(),
