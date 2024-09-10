@@ -53,7 +53,7 @@ def test_choice_count_of_tries():
 
 
 def test_add_word(mocker):
-    mock_input = mocker.patch('builtins.input', return_value="word, level, category, hint")
+    mocker.patch('builtins.input', return_value="word, level, category, hint")
     menu = MainMenu()
     menu.add_word()
     assert len(menu.LIST_OF_WORDS) == 1
