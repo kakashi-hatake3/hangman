@@ -1,7 +1,5 @@
 import json
 import random
-import pytest
-from pytest_mock import mocker
 from src.models import MainMenu, Word
 import os
 
