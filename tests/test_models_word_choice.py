@@ -2,13 +2,13 @@ import random
 import unittest
 from unittest.mock import MagicMock
 
-from src import models
+from src.main_menu import MainMenu
 
 
 class TestMainMenu(unittest.TestCase):
 
     def setUp(self):
-        self.main_menu = models.MainMenu()
+        self.main_menu = MainMenu()
         self.main_menu.LIST_OF_WORDS = [MagicMock() for _ in range(20)]
         self.main_menu.LIST_OF_LEVELS = ['beginner', 'intermediate', 'advanced']
         self.main_menu.refresh_lists = MagicMock()

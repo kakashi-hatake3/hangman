@@ -2,7 +2,8 @@ import json
 from unittest import mock
 
 import pytest
-from src.models import MainMenu
+
+from src.main_menu import MainMenu
 
 
 def test_load_words_success():

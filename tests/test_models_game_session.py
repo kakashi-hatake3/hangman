@@ -1,5 +1,6 @@
 import pytest
-from src.models import GameSession, Word
+from src.game_session import GameSession
+from src.word import Word
 
 
 @pytest.fixture

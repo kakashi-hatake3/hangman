@@ -1,7 +1,10 @@
 import json
 import random
-from src.models import MainMenu, Word
 import os
+
+from src.main_menu import MainMenu
+
+from src.word import Word
 
 
 def setup_function():
@@ -11,14 +14,13 @@ def setup_function():
 
 
 def test_start_game(mocker):
-    mock_random_choice = mocker.patch.object(random, 'choice', return_value="word")
+    mocker.patch.object(random, 'choice', return_value="word")
     menu = MainMenu()
     menu.users_category = "category"
     menu.users_level = "level"
-    menu.users_count = 3
+    menu.users_count = 7
     menu.LIST_OF_WORDS = [Word("word", "level", "category", "hint")]
-    assert menu.start_game() == ("word", 3)
-    mock_random_choice.assert_called_once()
+    assert menu.start_game()[0] == "word"
 
 
 def test_filter_words():

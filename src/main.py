@@ -1,10 +1,13 @@
 import logging
 import platform
-from time import sleep
 
-from models import MainMenu, DeleteMenu, CategoryMenu, LevelMenu, GameSession
+from src.game_session import GameSession
+from src.category_menu import CategoryMenu
+from src.delete_menu import DeleteMenu
+from src.level_menu import LevelMenu
+from src.main_menu import MainMenu
 
-from utils import clear_screen
+from src.utils import clear_screen, sleep
 
 logging.basicConfig()
 logging.getLogger().setLevel(logging.INFO)
@@ -41,6 +44,7 @@ def main() -> None:
                 )
                 game_session.show()
                 menu.reset_fields()
+                menu.random_fields()
 
             elif menu.options[menu.selected_index] == 'Зарандомить':
                 """
