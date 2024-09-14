@@ -1,7 +1,7 @@
 import json
 
 from src.menu import Menu
-from src.utils import *
+from src.utils import clear_screen, random_choice, sleep, random_int
 from src.word import Word
 
 
