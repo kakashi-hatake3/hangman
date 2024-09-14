@@ -57,10 +57,10 @@ def test_add_word(mocker):
     menu = MainMenu()
     menu.add_word()
     assert len(menu.LIST_OF_WORDS) == 1
-    assert menu.LIST_OF_WORDS[0].get_value() == "word"
-    assert menu.LIST_OF_WORDS[0].get_level() == "level"
-    assert menu.LIST_OF_WORDS[0].get_category() == "category"
-    assert menu.LIST_OF_WORDS[0].get_hint() == "hint"
+    assert menu.LIST_OF_WORDS[0].value == "word"
+    assert menu.LIST_OF_WORDS[0].level == "level"
+    assert menu.LIST_OF_WORDS[0].category == "category"
+    assert menu.LIST_OF_WORDS[0].hint == "hint"
 
 
 def test_delete_word():
@@ -74,10 +74,10 @@ def test_create_and_add_word():
     menu = MainMenu()
     menu.create_and_add_word("word", "level", "category", "hint")
     assert len(menu.LIST_OF_WORDS) == 1
-    assert menu.LIST_OF_WORDS[0].get_value() == "word"
-    assert menu.LIST_OF_WORDS[0].get_level() == "level"
-    assert menu.LIST_OF_WORDS[0].get_category() == "category"
-    assert menu.LIST_OF_WORDS[0].get_hint() == "hint"
+    assert menu.LIST_OF_WORDS[0].value == "word"
+    assert menu.LIST_OF_WORDS[0].level == "level"
+    assert menu.LIST_OF_WORDS[0].category == "category"
+    assert menu.LIST_OF_WORDS[0].hint == "hint"
 
 
 def test_save_words():

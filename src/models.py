@@ -15,11 +15,11 @@ class Word:
                  level='Сложности нет',
                  category='Категории нет',
                  hint='Подсказки нет'):
-        self.__value = value
-        self.__level = level
-        self.__category = category
-        self.__hint = hint
-        self.__length = len(self.__value)
+        self.value = value
+        self.level = level
+        self.category = category
+        self.hint = hint
+        self.length = len(self.value)
 
     def to_dict(self):
         """
@@ -27,10 +27,10 @@ class Word:
         :return: возвращает словарь параметров слова
         """
         return {
-            'value': self.__value,
-            'level': self.__level,
-            'category': self.__category,
-            'hint': self.__hint
+            'value': self.value,
+            'level': self.level,
+            'category': self.category,
+            'hint': self.hint
         }
 
     @classmethod
@@ -47,21 +47,6 @@ class Word:
             data['hint']
         )
 
-    def get_value(self):
-        return self.__value
-
-    def get_level(self):
-        return self.__level
-
-    def get_category(self):
-        return self.__category
-
-    def get_hint(self):
-        return self.__hint
-
-    def get_length(self):
-        return self.__length
-
 
 class GameSession:
     def __init__(self, result_word, result_count):
@@ -77,7 +62,7 @@ class GameSession:
         :param result_count: это количество попыток, которые были выбраны или зарандомлены в MainMenu
         """
         self.word: Word = result_word
-        self.users_answer: str = '_' * self.word.get_length()
+        self.users_answer: str = '_' * self.word.length
         self.count_of_tries: int = result_count
         self.users_count: int = result_count
         self.alphabet: str = ''.join([chr(code) for code in range(ord('а'), ord('я') + 1)])
@@ -123,8 +108,8 @@ class GameSession:
         print('Кол-во оставшихся попыток: ', self.users_count, '\n')
 
     def print_fields(self) -> None:
-        print('Сложность: ', self.word.get_level(), '\n')
-        print('Категория: ', self.word.get_category(), '\n')
+        print('Сложность: ', self.word.level, '\n')
+        print('Категория: ', self.word.category, '\n')
 
     def print_word(self) -> None:
         print('Слово: ', self.users_answer + '\n')
@@ -135,7 +120,7 @@ class GameSession:
         :return: None
         """
         if self.hint:
-            print('Подсказка: ', self.word.get_hint(), '\n')
+            print('Подсказка: ', self.word.hint, '\n')
         else:
             print('Подсказка: ___\n')
 
@@ -183,11 +168,11 @@ class GameSession:
         :return: None
         """
         self.alphabet = self.alphabet.replace(self.letter, '_')
-        if self.letter in self.word.get_value():
-            indexes = [ind for ind, letter in enumerate(list(self.word.get_value())) if letter == self.letter]
+        if self.letter in self.word.value:
+            indexes = [ind for ind, letter in enumerate(list(self.word.value)) if letter == self.letter]
             for i in indexes:
                 self.users_answer = self.users_answer[:i] + self.letter + self.users_answer[i + 1:]
-            if self.users_answer == self.word.get_value():
+            if self.users_answer == self.word.value:
                 self.end()
         else:
             self.users_count -= 1
@@ -416,8 +401,8 @@ class MainMenu(Menu):
         """
         return [word
                 for word in self.LIST_OF_WORDS
-                if word.get_category() == self.users_category and
-                word.get_level() == self.users_level]
+                if word.category == self.users_category and
+                word.level == self.users_level]
 
     def choice_category(self, new_category) -> None:
         """
@@ -458,7 +443,7 @@ class MainMenu(Menu):
         sleep(0.15)
         while True:
             args = input().split(', ')
-            if len(args) == 4 and args[0] not in [word.get_value() for word in self.LIST_OF_WORDS] and len(
+            if len(args) == 4 and args[0] not in [word.value for word in self.LIST_OF_WORDS] and len(
                     args[0]) < 20:
                 self.create_and_add_word(
                     args[0].lower().replace(' ', '_'),
@@ -478,7 +463,7 @@ class MainMenu(Menu):
         :param value: слово, которое пользователь выбрал в меню удаления
         :return: None
         """
-        self.LIST_OF_WORDS = [word for word in self.LIST_OF_WORDS if word.get_value() != value]
+        self.LIST_OF_WORDS = [word for word in self.LIST_OF_WORDS if word.value != value]
         self.save_words()
 
     def create_and_add_word(self, value, level, category, hint) -> None:
@@ -527,8 +512,8 @@ class MainMenu(Menu):
         Обновляет списки с уровнями и категориями, в соответствии с текущим LIST_OF_WORDS
         :return:
         """
-        self.LIST_OF_LEVELS = list(set([word.get_level() for word in self.LIST_OF_WORDS]))
-        self.LIST_OF_CATEGORIES = list(set([word.get_category() for word in self.LIST_OF_WORDS]))
+        self.LIST_OF_LEVELS = list(set([word.level for word in self.LIST_OF_WORDS]))
+        self.LIST_OF_CATEGORIES = list(set([word.category for word in self.LIST_OF_WORDS]))
 
     def random_fields(self) -> None:
         """
@@ -540,9 +525,9 @@ class MainMenu(Menu):
             if not self.choice_level_flag:
                 self.users_level = random.choice(self.LIST_OF_LEVELS)
             if not self.choice_category_flag:
-                self.users_category = random.choice([word.get_category()
+                self.users_category = random.choice([word.category
                                                      for word in self.LIST_OF_WORDS
-                                                     if word.get_level() == self.users_level])
+                                                     if word.level == self.users_level])
             if not self.choice_count_flag:
                 self.users_count = random.randint(6, 10)
         except IndexError:
@@ -572,9 +557,9 @@ class CategoryMenu(Menu):
         :param main_menu:
         :return: None
         """
-        self.options = [word.get_category()
+        self.options = [word.category
                         for word in main_menu.LIST_OF_WORDS
-                        if word.get_level() == main_menu.users_level]
+                        if word.level == main_menu.users_level]
 
 
 class LevelMenu(Menu):
@@ -603,4 +588,4 @@ class DeleteMenu(Menu):
         :param main_menu:
         :return: None
         """
-        self.options = [word.get_value() for word in main_menu.LIST_OF_WORDS]
+        self.options = [word.value for word in main_menu.LIST_OF_WORDS]
