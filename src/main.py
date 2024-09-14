@@ -3,7 +3,6 @@ import platform
 from time import sleep
 
 from models import MainMenu, DeleteMenu, CategoryMenu, LevelMenu, GameSession
-import keyboard
 
 from utils import clear_screen
 
@@ -24,8 +23,7 @@ def main() -> None:
          и при нажатии на enter мы зайдем в соответствующий if
         """
         menu.print_menu()
-        key = keyboard.read_key()
-        if menu.handle_key(key) == 'enter' and menu.exit is False:
+        if menu.handle_key() == 'enter' and menu.exit is False:
             if menu.options[menu.selected_index] == 'Начать игру':
                 """
                 Начало игры, создаем объект игровой сессии, заполняем поля и после игры чистим их
@@ -62,8 +60,7 @@ def main() -> None:
                 while not category_menu.exit:
                     sleep(0.15)
                     category_menu.print_menu()
-                    category_key = keyboard.read_key()
-                    if category_menu.handle_key(category_key) == 'enter':
+                    if category_menu.handle_key() == 'enter':
                         """
                         Выбираем категорию
                         """
@@ -86,8 +83,7 @@ def main() -> None:
                 while not level_menu.exit:
                     sleep(0.15)
                     level_menu.print_menu()
-                    level_key = keyboard.read_key()
-                    if level_menu.handle_key(level_key) == 'enter':
+                    if level_menu.handle_key() == 'enter':
                         """
                         Выбираем уровень
                         """
@@ -104,11 +100,14 @@ def main() -> None:
                 Пользовательский ввод количества попыток, при удаче меняет значение попыток
                 """
                 clear_screen()
-                print('Введите число попыток от 6 до 10, чтобы вернуться нажмите "enter+esc"\n')
+                print("Введите число попыток от 6 до 10, чтобы вернуться введите 'выход'\n")
                 sleep(0.15)
                 while True:
+                    count_input = input()
+                    if count_input == 'выход':
+                        break
                     try:
-                        new_count = int(input())
+                        new_count = int(count_input)
                         if 6 <= new_count <= 10:
                             menu.choice_count_of_tries(new_count)
                             break
@@ -116,8 +115,6 @@ def main() -> None:
                             print('Число должно быть от 6 до 10!\n')
                     except ValueError:
                         print('Вводите число!\n')
-                        if keyboard.is_pressed('esc'):
-                            break
 
             elif menu.options[menu.selected_index] == 'Добавить слово':
                 """
@@ -136,8 +133,7 @@ def main() -> None:
                 while not delete_menu.exit:
                     sleep(0.15)
                     delete_menu.print_menu()
-                    delete_key = keyboard.read_key()
-                    if delete_menu.handle_key(delete_key) == 'enter':
+                    if delete_menu.handle_key() == 'enter':
                         """
                         Выбираем слово для удаления
                         """

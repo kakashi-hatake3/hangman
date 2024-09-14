@@ -2,8 +2,6 @@ import json
 import random
 from time import sleep
 
-import keyboard
-
 from utils import clear_screen
 
 
@@ -320,26 +318,27 @@ class Menu:
         :return: None
         """
         clear_screen()
-        print("Для выхода нажмите на esc. Выберите опцию:")
+        print("Выберите опцию:")
         for i, option in enumerate(self.options):
             if i == self.selected_index:
                 print(f"> {option}")
             else:
                 print(f"  {option}")
 
-    def handle_key(self, key):
+    def handle_key(self):
         """
-        С помощью библиотеки keyboard отлавливает какая кнопка на клавиатуре была нажата
-        :param key: значение клавиши
-        :return: None
+        Обрабатывает ввод пользователя с помощью input.
+        :return: 'enter' если была нажата клавиша Enter, иначе None.
         """
-        if key == 'enter':
+        key = input("Введите 'w' для вверх, 's' для вниз, 'Enter' для выбора, 'e' для выхода: ").strip().lower()
+
+        if key == '':  # Enter
             return 'enter'
-        elif key == 'up':  # Up arrow
+        elif key == 'w':  # Up (вверх)
             self.selected_index = (self.selected_index - 1) % len(self.options)
-        elif key == 'down':  # Down arrow
+        elif key == 's':  # Down (вниз)
             self.selected_index = (self.selected_index + 1) % len(self.options)
-        elif key == 'esc':
+        elif key == 'e':  # Escape (выход)
             self.exit = True
         return None
 
@@ -439,11 +438,13 @@ class MainMenu(Menu):
         """
         clear_screen()
         print("Введите: слово, уровень сложности, категорию для этого слова, подсказку."
-              " Разделяя ', '. Для того чтобы вернуться нажмите 'enter+esc'\n")
+              " Разделяя ', '. Для того чтобы вернуться введите 'выход'\n")
         sleep(0.15)
         while True:
             args = input().split(', ')
-            if len(args) == 4 and args[0] not in [word.value for word in self.LIST_OF_WORDS] and len(
+            if args[0] == 'выход':
+                break
+            elif len(args) == 4 and args[0] not in [word.value for word in self.LIST_OF_WORDS] and len(
                     args[0]) < 20:
                 self.create_and_add_word(
                     args[0].lower().replace(' ', '_'),
@@ -454,8 +455,6 @@ class MainMenu(Menu):
                 break
             else:
                 print('Вы где-то допустили ошибку!\n')
-                if keyboard.is_pressed('esc'):
-                    break
 
     def delete_word(self, value) -> None:
         """
