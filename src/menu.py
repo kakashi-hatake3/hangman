@@ -36,12 +36,13 @@ class Menu:
         """
         key = input("Введите 'w' для вверх, 's' для вниз, 'Enter' для выбора, 'e' для выхода: ").strip().lower()
 
-        if key == '':  # Enter
-            return 'enter'
-        elif key == 'w':  # Up (вверх)
-            self.selected_index = (self.selected_index - 1) % len(self.options)
-        elif key == 's':  # Down (вниз)
-            self.selected_index = (self.selected_index + 1) % len(self.options)
-        elif key == 'e':  # Escape (выход)
-            self.exit = True
+        match key:
+            case '':
+                return 'enter'
+            case 'w':
+                self.selected_index = (self.selected_index - 1) % len(self.options)
+            case 's':
+                self.selected_index = (self.selected_index + 1) % len(self.options)
+            case 'e':
+                self.exit = True
         return None
